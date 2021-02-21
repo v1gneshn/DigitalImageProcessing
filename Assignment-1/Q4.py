@@ -9,7 +9,6 @@ from helpers import *
 X_RESIZE_FACTOR = 0.4
 Y_RESIZE_FACTOR = 1
 
-resizedImg = []
 img = cv.imread('lena.png', cv.IMREAD_GRAYSCALE)
 w, h = img.shape
 scale = (floor(w*X_RESIZE_FACTOR), floor(h*Y_RESIZE_FACTOR))
