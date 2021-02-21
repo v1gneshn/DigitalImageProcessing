@@ -386,6 +386,28 @@ For Additive Gaussian Noise, the noise levels on the averaged images DOES NOT de
 
 ```py
 # Q4.py
+
+mport cv2 as cv
+import numpy as np
+from math import floor
+from helpers import *
+
+X_RESIZE_FACTOR = 2
+Y_RESIZE_FACTOR = 2
+
+img = cv.imread('lena.png', cv.IMREAD_GRAYSCALE)
+resized = cv.resize(img, None, fx=X_RESIZE_FACTOR, fy=Y_RESIZE_FACTOR)
+w, h = img.shape
+scale = (floor(w*X_RESIZE_FACTOR), floor(h*Y_RESIZE_FACTOR))
+
+cv.namedWindow(f"Original image{img.shape}", cv.WINDOW_AUTOSIZE)
+cv.namedWindow(f"Resized image{scale}", cv.WINDOW_AUTOSIZE)
+cv.namedWindow(f"Using resize method{resized.shape}", cv.WINDOW_AUTOSIZE)
+cv.imshow(f"Original image{img.shape}", img)
+cv.imshow(f"Resized image{scale}", np.uint8(bilinearInterpolate(img, scale)))
+cv.imshow(f"Using resize method{resized.shape}", resized)
+cv.waitKey(0)
+
 ```
 
 #### Outputs
@@ -408,7 +430,44 @@ As can be seen, exact same results have been achieved using both the inbuilt com
 
 #### Code
 
+```py
+# Q5.py
+
+om PIL import Image, ImageDraw
+from math import sin, cos, pi, radians
+from numpy import uint8
+import cv2 as cv
+
+
+# Load image:
+input_image = Image.open("pisa.jpeg")
+input_pixels = input_image.load()
+
+output_image = Image.new("RGB", input_image.size)
+draw = ImageDraw.Draw(output_image)
+
+angle = 10
+degree = radians(angle)
+center_x = input_image.width / 2
+center_y = input_image.height / 2
+
+for x in range(input_image.width):
+    for y in range(input_image.height):
+        xp = int((x - center_x) * cos(degree) - (y - center_y) * sin(degree) + center_x)
+        yp = int((x - center_x) * sin(degree) + (y - center_y) * cos(degree) + center_y)
+        if 0 <= xp < input_image.width and 0 <= yp < input_image.height:
+            draw.point((x, y), input_pixels[xp, yp])
+
+cv.imshow(f"Rotated Pisa{angle} degrees", uint8(output_image))
+cv.waitKey(0)
+
+```
+
 #### Outputs
+
+| ![Matrix][Q5] |
+|:--------------------------:|
+A can be seen around 7 degrees the tower looks straight. Hence we conclude that the tower's inclination is 7 degrees.
 
 ### Q6. Do histogram equalization on pout-dark and display the same
 
@@ -634,6 +693,7 @@ def match_histogram(inp_img, hist_input, e_hist_input, e_hist_target, _print=Tru
 [Q4-0.5x]: outputs/Q4-0.5x.png
 [Q4-1x]: outputs/Q4-1x.png
 [Q4-2x]: outputs/Q4-2x.png
+[Q5]: outputs/pisa-7.png
 [Q6-1]: outputs/Q6-1.jpg
 [Q6-2]: outputs/Q6-2.jpg
 [Q7-1]: outputs/Q7-1.jpg
