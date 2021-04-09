@@ -2,7 +2,7 @@ import numpy as np
 
 
 def fft(x):
-    x = np.asfarray(x)
+    x = np.asarray(x, dtype=complex)
     N = x.shape[0]
     twiddle = np.exp(-2j*np.pi/N)
     if N % 2 > 0:
