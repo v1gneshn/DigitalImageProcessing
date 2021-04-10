@@ -14,5 +14,7 @@ dog = np.pad(dog, [(0, 0), (0, 512-dog.shape[1])], mode='constant')
 lenaFFT = fft2(lena)
 dogFFT = fft2(dog)
 
-plotSpectrum(lenaFFT, 'Lena', True)
-plotSpectrum(dogFFT, 'Dog', True)
+plotSpectrum(lenaFFT, 'Lena')
+plotSpectrum(dogFFT, 'Dog')
+
+cv.waitKey(0)
