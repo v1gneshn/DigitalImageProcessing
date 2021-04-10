@@ -14,4 +14,3 @@ def plotSpectrum(fft, fileName, magOnly=False):
         pha=np.angle(fft, deg=True)
         cv.namedWindow(f'{fileName} (Phase Spectrum)', cv.WINDOW_AUTOSIZE)
         cv.imshow(f'{fileName} (Phase Spectrum)', pha)
-    cv.waitKey(0)
