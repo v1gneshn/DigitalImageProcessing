@@ -12,13 +12,28 @@ dog = np.pad(dog, [(0, 0), (0, 512-dog.shape[1])], mode='constant')
 
 
 lenaFFT = fft2(lena)
-mag = np.absolute(lenaFFT)
-phase = np.angle(lenaFFT)
+lenaMag = np.absolute(lenaFFT)
+lenaPhase = np.angle(lenaFFT)
+dogFFT = fft2(dog)
+dogMag = np.absolute(dogFFT)
+dogPhase = np.angle(dogFFT)
+fft = np.multiply(lenaMag, np.exp(1j*dogPhase))
 
-fft = np.multiply(mag, np.exp(1j*phase))
+lenaFFT_builtin = np.fft.fft2(lena)
+lenaMag_builtin = np.absolute(lenaFFT)
+lenaPhase_builtin = np.angle(lenaFFT)
+dogFFT_builtin = np.fft.fft2(dog)
+dogMag_builtin = np.absolute(dogFFT)
+dogPhase_builtin = np.angle(dogFFT)
+fft_builtin = np.multiply(lenaMag, np.exp(1j*dogPhase_builtin))
+
 img = idft2(fft)
-# img = np.fft.ifft2(fft)
-cv.namedWindow('Lena', cv.WINDOW_AUTOSIZE)
-cv.imshow('Lena', img/255)
+img_builtin = np.absolute(np.fft.ifft2(fft_builtin))
+
+cv.namedWindow('User defined', cv.WINDOW_AUTOSIZE)
+cv.imshow('User defined', img/255)
+
+cv.namedWindow('Builtin', cv.WINDOW_AUTOSIZE)
+cv.imshow('Builtin', img_builtin/255)
 
 cv.waitKey(0)
